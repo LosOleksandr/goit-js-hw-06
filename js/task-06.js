@@ -1,18 +1,23 @@
 const inputEl = document.querySelector("#validation-input");
 
-const onInputBlur = (event) => {
+const changeClass = (classToAdd, classToRemove) => {
+  event.currentTarget.classList.add(classToAdd);
+  event.currentTarget.classList.remove(classToRemove);
+};
+
+const onInputBlur = (event, validClass, invalidClass) => {
   if (
     event.currentTarget.value.length ===
     Number(inputEl.getAttribute("data-length"))
   ) {
-    inputEl.classList.add("valid");
-    inputEl.classList.remove("invalid")
-
+    changeClass(validClass, invalidClass);
   } else {
-    inputEl.classList.remove("valid")
-    inputEl.classList.add("invalid");
-    inputEl.value = "";
+    changeClass(invalidClass, validClass);
   }
 };
 
-inputEl.addEventListener("blur", onInputBlur);
+inputEl.addEventListener("blur", (event) =>
+  onInputBlur(event, "valid", "invalid")
+);
+
+

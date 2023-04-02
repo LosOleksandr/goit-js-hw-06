@@ -1,29 +1,34 @@
 const formEl = document.querySelector(".login-form");
 
+const inpurError = "All fields must be filled out"
+
 function formValidation(event) {
   let values, error;
 
-  const allInputs = [...formEl.querySelectorAll("input")];
+  const allInputs = [...event.currentTarget.querySelectorAll("input")];
 
   if (allInputs.some((input) => input.value === "")) {
-    error = "All fields must be filled out";
-  } else {
-    const elements = event.currentTarget.elements;
-    const mail = elements.email.value;
-    const password = elements.password.value;
-    values = {
-      mail,
-      password,
-    };
+    return (error = inpurError);
   }
-  return { values, error };
+
+  const elements = event.currentTarget.elements;
+  const mail = elements.email.value;
+  const password = elements.password.value;
+  return (values = {
+    mail,
+    password,
+  });
 }
 
 formEl.addEventListener("submit", (event) => {
   event.preventDefault();
-  const { values, error } = formValidation(event);
-  if (error) alert(error);
-  if (values) console.log(values);
-  formEl.reset();
+  const result = formValidation(event);
+  if (result === inpurError) {
+    alert(inpurError);
+  } else {
+    console.log(result);
+  }
+  
+  event.currentTarget.reset();
 });
 
